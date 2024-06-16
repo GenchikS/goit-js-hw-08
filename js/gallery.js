@@ -65,4 +65,37 @@ const images = [
   ];
 
 
+  let gallery = document.querySelector(`.gallery`);
+
+  gallery.insertAdjacentHTML('beforeend', galleryPhoto(images));  //  виклик ф-цшї об'єкту images та додвання елементів до gallery
+
+  gallery.addEventListener(`click`, clickPhoto);
+
+  function galleryPhoto(arr) {
+
+    return arr.map(
+      ({preview, original, description}) => 
+    `<li class="gallery-item">
+            <a class="gallery-link" href="${original}">
+              <img
+                class="gallery-image"
+                src="${preview}"
+                data-source="${original}"
+                alt="${description}"
+              />
+            </a>
+          </li>
+          `).join(``)
+};
+
+function clickPhoto (event){
+  // console.log(`currentTarget`,event.currentTarget);  //  звернення до батька
   
+  if (event.target === event.currentTarget){  //  перевірка на нажаття між єлементами (на батька) 
+    return  //  при true перериваємо і нічого не повертаємо
+  }
+  console.log(`target`, event.target)  //  делегування. Звернення до дітей батька, занурення
+
+}
+
+
