@@ -66,7 +66,7 @@ const images = [
 
 // console.log(basicLightbox);  //  перевірка підключення бібліотеки
   
-  const gallery = document.querySelector(`.gallery`);
+  const gallery = document.querySelector (`.gallery`);
 
   gallery.insertAdjacentHTML('beforeend',createGalleryPhoto(images));  //  виклик ф-цшї об'єкту images та додвання елементів до gallery
   gallery.addEventListener(`click`, clickGetPhoto);
@@ -98,12 +98,12 @@ function clickGetPhoto(event) {
   const sourcePhotoAll = sourcePhoto.dataset.source;  //  звернення до посилання data-source="${original}" в елементі sourcePhoto
   // console.log(`sourcePhotoAll`, sourcePhotoAll);  //  перевірка посилання
 
-// console.log(`currentTarget`, event.currentTarget);  //  звернення до батька при клікі на будь-яке фото
+  // console.log(`currentTarget`, event.currentTarget);  //  звернення до батька при клікі на будь-яке фото
   
   //  перевірка на нажаття між єлементами (на батька) на варіант 1
-//   if (event.target === event.target.classList.contains(`gallery`)) {  //  перевірка на нажаття між єлементами (на батька)
-//     return  //  при true перериваємо і нічого не повертаємо
-//   }
+  //   if (event.target === event.target.classList.contains(`gallery`)) {  //  перевірка на нажаття між єлементами (на батька)
+  //     return  //  при true перериваємо і нічого не повертаємо
+  //   }
 
   // перевірка на нажаття між єлементами (на батька) на варіант 2 (метод .closest())
   const parent = event.target.closest(`.gallery-item`);  //  звернення при клікі на будь-яку вкладеність дітей до батька
@@ -115,8 +115,17 @@ function clickGetPhoto(event) {
      </div>
   `);
 
-  instance.show();  //  виклик бібліотеки show 
+  instance.show();  //  виклик бібліотеки show
   event.preventDefault();  //  заборона дій браузера на загрузку фото на ПК
+  
+  const clickclose = document.querySelector(`.modal-img`)  //  звернення до модального вікна
+  // console.log(`clickclose`, clickclose);  //  перевірка модельного вікна
+
+  clickclose.addEventListener(`click`, clickclosePhoto);
+
+  function clickclosePhoto() {
+      instance.close();   //  закривання модального вікна
+  }
 }
 
 
