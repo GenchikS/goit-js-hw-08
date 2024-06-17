@@ -64,15 +64,15 @@ const images = [
     },
   ];
 
+// console.log(basicLightbox);  //  перевірка підключення бібліотеки
+  
+  const gallery = document.querySelector(`.gallery`);
 
-  let gallery = document.querySelector(`.gallery`);
+  gallery.insertAdjacentHTML('beforeend',createGalleryPhoto(images));  //  виклик ф-цшї об'єкту images та додвання елементів до gallery
+  gallery.addEventListener(`click`, clickGetPhoto);
 
-  gallery.insertAdjacentHTML('beforeend', galleryPhoto(images));  //  виклик ф-цшї об'єкту images та додвання елементів до gallery
 
-  gallery.addEventListener(`click`, clickPhoto);
-
-  function galleryPhoto(arr) {
-
+ function createGalleryPhoto(arr) {
     return arr.map(
       ({preview, original, description}) => 
     `<li class="gallery-item">
@@ -88,14 +88,35 @@ const images = [
           `).join(``)
 };
 
-function clickPhoto (event){
-  // console.log(`currentTarget`,event.currentTarget);  //  звернення до батька
-  
-  if (event.target === event.currentTarget){  //  перевірка на нажаття між єлементами (на батька) 
-    return  //  при true перериваємо і нічого не повертаємо
-  }
-  console.log(`target`, event.target)  //  делегування. Звернення до дітей батька, занурення
+function clickGetPhoto(event) {
 
+  // console.log(`event`, event)  //  на якому event сталася подія
+  // console.log(`eventTarget`, event.target)  //  елемент img в li class="gallery-item"
+
+  const sourcePhoto = event.target; //  делегування. Звернення до дітей батька, занурення
+  // console.log(`sourcePhoto`, sourcePhoto) //  перевірка занурення
+  const sourcePhotoAll = sourcePhoto.dataset.source;  //  звернення до посилання data-source="${original}" в елементі sourcePhoto
+  // console.log(`sourcePhotoAll`, sourcePhotoAll);  //  перевірка посилання
+
+// console.log(`currentTarget`, event.currentTarget);  //  звернення до батька при клікі на будь-яке фото
+  
+  //  перевірка на нажаття між єлементами (на батька) на варіант 1
+//   if (event.target === event.target.classList.contains(`gallery`)) {  //  перевірка на нажаття між єлементами (на батька)
+//     return  //  при true перериваємо і нічого не повертаємо
+//   }
+
+  // перевірка на нажаття між єлементами (на батька) на варіант 2 (метод .closest())
+  const parent = event.target.closest(`.gallery-item`);  //  звернення при клікі на будь-яку вкладеність дітей до батька
+  // console.log(`parent`, parent);  //  перевірка звернення
+
+  const instance = basicLightbox.create(`
+     <div class="modal-img">
+     <img src="${sourcePhotoAll}" width="1112" height="640">
+     </div>
+  `);
+
+  instance.show();  //  виклик бібліотеки show 
+  event.preventDefault();  //  заборона дій браузера на загрузку фото на ПК
 }
 
 
